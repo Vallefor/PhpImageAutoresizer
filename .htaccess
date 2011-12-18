@@ -1,0 +1,16 @@
+#php_value display_errors 1
+#php_value error_reporting "E_ALL ~E_NOTICE"
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+
+	#должна быть равна CATS_BASE но без первого слеша и с последним слешем
+	RewriteCond %{REQUEST_FILENAME} autoresize/
+
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-l
+	RewriteCond %{REQUEST_FILENAME} !-d
+
+	#путь к  скрипту ресайза
+	RewriteRule ^(.*)$ /imagick/resizelib/autoresize.php [L]
+</IfModule>

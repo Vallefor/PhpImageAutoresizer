@@ -4,4 +4,6 @@ http://example.com/img/test.jpg
 
 Если обратиться к ней так:
 http://example.com/autoresize/50x50/img/test.jpg
-То получим уменьшенную копию до 50х50.
+То получим уменьшенную копию до 50х50. Вместо 50x50 конечно же можно писать всякие разные форматы.
+Обработчик находится тут: catsMagic::readResizeOptions
+This file was modified by JetBrains PhpStorm 3.0 for binding GitHub repository
