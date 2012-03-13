@@ -3,6 +3,7 @@ define("CATS_BASE","/autoresize"); //относительный путь к па
 define("CATS_DIR_CHMOD",0777); //Права на папки
 define("CATS_FILE_CHMOD",0777); //права на файлы
 define("CATS_JPG_QUALITY",95); //Качество JPEG сжатия
+define("CATS_WATERMARK_PATH","/upload/events/eus_logo.png"); //путь к вотермарку
 
 
 
@@ -25,6 +26,7 @@ define("CATS_JPG_QUALITY",95); //Качество JPEG сжатия
 		#путь к  скрипту ресайза
 		RewriteRule ^(.*)$ /imagick/resizelib/autoresize.php [L]
 	</IfModule>
+
  */
 
 ?>

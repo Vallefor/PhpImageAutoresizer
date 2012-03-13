@@ -6,7 +6,7 @@
  * Contact: madsorcerer@gmail.com
  * Date: 26.10.11
  * Time: 11:22
- * Version: 1.0
+ * Version: 1.1
  */
 
 if(!class_exists("Imagick"))
@@ -119,6 +119,19 @@ if(!class_exists("Imagick"))
 				$sa($this->src,NULL);
 			return "";
 		}
+		function compositeimage(catsMagick &$comp,$someInt,$x,$y)
+		{
+			$geo=$comp->getImageGeometry();
+			imagecopyresampled($this->src,$comp->src,0,0,$x,$y,$geo["width"],$geo["height"],$geo["width"],$geo["height"]);
+		}
+		function getImageCompose()
+		{
+			return 40;
+		}
+		function clear()
+		{
+			imagedestroy($this->src);
+		}
 	}
 }
 
@@ -130,19 +143,23 @@ class catsMagick extends Imagick
 	{
 		$extAllow=array(
 			"jpg"=>true,
+			"JPG"=>true,
+			"JPEG"=>true,
 			"jpeg"=>true,
 			"png"=>true,
 		);
 		$optAllow=array(
-			"50x50"=>true,
-			"50x50xC"=>true,
-			"960x0"=>true,
-			"300x0"=>true,
-			"640x0"=>true,
+			"209x154xC"=>true,
+			"500x500xCxL"=>true,
+			"610x0xL"=>true,
+			"610x0xCxL"=>true,
+			"610x0"=>true,
 		);
 		//return true;
 		if($extAllow[$ext] && $optAllow[$opt])
+		{
 			return true;
+		}
 		else
 			return false;
 	}
@@ -174,6 +191,8 @@ class catsMagick extends Imagick
 		$arr=array(
 			"jpg"=>"image/jpeg",
 			"jpeg"=>"image/jpeg",
+			"JPG"=>"image/jpeg",
+			"JPEG"=>"image/jpeg",
 			"png"=>"image/png",
 		);
 
@@ -188,7 +207,6 @@ class catsMagick extends Imagick
 		foreach($dirs as $val)
 		{
 			$file=$_SERVER["DOCUMENT_ROOT"].CATS_BASE."/".$val.$realFile;
-			//echo "Try:".$file."\n";
 			if(is_file($file))
 			{
 				if(!unlink($file))
@@ -208,19 +226,24 @@ class catsMagick extends Imagick
 	{
 		///echo $str;
 		$ex=explode("x",$str);
-		//print_r($ex);
 		$ex[0]=intval($ex[0]);
 		$ex[1]=intval($ex[1]);
-		if(($ex[0]==0 || $ex[1]==0) && isset($ex[2])) unset($ex[2]);
+		if(($ex[0]==0 || $ex[1]==0) && isset($ex[2]) && $ex[2]!="L" ) unset($ex[2]);
+
 		if(count($ex)>=3)
 		{
 			if($ex[2]=="C")
-			{
 				$this->resizeAndCrop($ex[0],$ex[1]);
-			}
 			else
 			{
 				$this->rightResize($ex[0],$ex[1]);
+			}
+			if($ex[2]=="L" || $ex[3]=="L")
+			{
+				$logo=new catsMagick();
+				$logo->readimage($_SERVER["DOCUMENT_ROOT"].CATS_WATERMARK_PATH);
+				$this->compositeimage($logo,$logo->getImageCompose(),0,0);
+				$logo->clear();
 			}
 		}
 		elseif(count($ex)==2)
