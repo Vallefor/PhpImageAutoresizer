@@ -112,7 +112,6 @@ if(!class_exists("Imagick"))
 		{
 			//небольшой хак, GD не может положить вывод в переменную, а юзать буфер вывода совсем не айс.
 			$sa=$this->saveFunc;
-			//$sa($this->src,NULL,$this->compression);
 			if($sa=="imagejpeg")
 				$sa($this->src,NULL,$this->compression);
 			else
@@ -297,8 +296,6 @@ class catsMagick extends Imagick
 	}
 	function resizeAndCrop($needW,$needH,$filter=imagick::FILTER_LANCZOS,$sharp=1)
 	{
-
-		//echo $this->lastCropX."x".$this->lastCropY;
 		$crop=$this->rightResize($needW,$needH,true,$filter,$sharp);
 		$this->cropimage($needW,$needH,$crop["x"],$crop["y"]);
 	}
