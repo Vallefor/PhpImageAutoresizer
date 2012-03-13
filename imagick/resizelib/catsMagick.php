@@ -224,7 +224,6 @@ class catsMagick extends Imagick
 	}
 	function readResizeOptions($str)
 	{
-		///echo $str;
 		$ex=explode("x",$str);
 		$ex[0]=intval($ex[0]);
 		$ex[1]=intval($ex[1]);
